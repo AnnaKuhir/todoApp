@@ -19,8 +19,8 @@ const renderFormCreated = () => {
 
 const renderSearchForm = () => {
 	const template = `
-	<form action="#" class="js-searchItem">
-	<input type="text" class="js-searchItem_searchByTitle searchItem_element" placeholder="Search by title">
+	<form action="#" class="js-searchItem" id="search-form">
+	<input type="text" class="js-searchItem_searchByTitle searchItem_element" placeholder="Search by title" required="true">
 	<button type="submit" class="js-searchItem_button searchItem_element">Search</button>
 </form>
 	`
@@ -61,6 +61,8 @@ const onAddNewItemClick = () => {
 
 const onSearchByItemClick = () => {
 	renderSearchForm()
+	const createSearchForm = document.getElementById('search-form');
+	createSearchForm.addEventListener('submit', onSearchByTitle);
 }
 
 const onCreateItemSubmit = (event) => {
@@ -70,7 +72,18 @@ if (event){
 	itemList.push(new Item (title, description))
 	console.log(itemList);
 	renderItemList(itemList);
+	event.target.reset();
 }
+}
+
+const onSearchByTitle = (event) => {
+	if (event) {
+		const title = event.target[0].value;
+		const newItemsList = itemList.filter( item => item.title.toLowerCase().includes(title.toLowerCase()))
+		renderItemList(newItemsList);
+		event.target.reset();
+	}
+
 }
 
 
@@ -78,6 +91,7 @@ if (event){
 
 addNewItem.addEventListener('click', onAddNewItemClick);
 searchItem.addEventListener('click', onSearchByItemClick);
+
 
 
 
