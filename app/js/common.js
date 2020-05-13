@@ -47,8 +47,8 @@ const fillItemTemplate = (item, id) => {
 	<div class="button-container">
 		<button class="js-edit-button item-functional-button">Edit</button>
 		<button class="js-delete-button item-functional-button" id="delete-${id}">Delete</button>
-		<button class="js-hold-button item-functional-button">Hold</button>
-		<button class="js-done-button item-functional-button">Done</button>
+		<button class="js-hold-button item-functional-button" id="hold-${id}">Hold</button>
+		<button class="js-done-button item-functional-button" id="done-${id}">Done</button>
 	</div>
 	<span>${status}</span>
 </div>
@@ -87,10 +87,24 @@ const initializeEventListeners = () => {
 			item.addEventListener('click', onDeleteButtonClick)
 		})
 	}
+
+	const doneButtonItems = document.querySelectorAll('.js-done-button');
+	if(doneButtonItems){
+		doneButtonItems.forEach(item => {
+			item.addEventListener('click', onDoneButtonClick)
+		})
+	}
+
+	const holdButtonItems = document.querySelectorAll('.js-hold-button');
+	if(holdButtonItems){
+		holdButtonItems.forEach(item => {
+			item.addEventListener('click', onHoldButtonClick)
+		})
+	}
 }
 
 const onDeleteButtonClick = (event) => {
-	debugger;
+	// debugger;
 	const item = event.target.id;
 	const index = item.split('-').pop();
 	itemList.splice(index, 1)
@@ -99,9 +113,20 @@ const onDeleteButtonClick = (event) => {
 }
 
 const onDoneButtonClick = (event) => {
+	// debugger;
 	const item = event.target.id;
 	const index = item.split('-').pop(); 
+	itemList[index].status = StatusEnam.done
+	renderItemList(itemList)
+	initializeEventListeners()
+}
 
+const onHoldButtonClick = (event) => {
+	const item = event.target.id;
+	const index = item.split('-').pop(); 
+	itemList[index].status = StatusEnam.hold
+	renderItemList(itemList)
+	initializeEventListeners()
 }
 
 const onSearchByTitle = (event) => {
