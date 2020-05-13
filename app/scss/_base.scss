@@ -27,7 +27,7 @@ body {
   }
 }
 
-.js-addListItem{
+.functional-form{
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -37,20 +37,15 @@ body {
     padding: 5px 10px;
     margin-top: 8px;
   }
-  
-}
-
-.js-searchItem{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
 
   .searchItem_element{
     width: 100%;
     padding: 5px 10px;
     margin-top: 8px;
   }
+  
 }
+
 
 .js-item{
   width: 100%;

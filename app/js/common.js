@@ -1,14 +1,15 @@
-const addNewItem = document.getElementById('js-addNew-button');
-const searchItem = document.getElementById('js-search-button');
-const formContainer = document.getElementById('formContainer');
-const itemsContainer = document.getElementById('itemContainer')
+const addNewItem = document.querySelector('.js-addNew-button');
+const searchItem = document.querySelector('.js-search-button');
+const formContainer = document.querySelector('.js-formContainer');
+const itemsContainer = document.querySelector('.js-itemContainer');
+var removeItemButton;
 
 
 const itemList = [];
 
 const renderFormCreated = () => {
 	const template = `
-	<form action="#" class="js-addListItem" id="create-item-form">
+	<form action="#" class="js-addListItem functional-form">
 				<input type="text" class="js-addListItem_title addListItem_element " placeholder="Enter title" required="true">
 				<input type="text" class="js-addListItem_description addListItem_element" placeholder="Enter description" required="true">
 				<button type="submit" class="js-addListItem_button addListItem_element">Add</button>
@@ -19,7 +20,7 @@ const renderFormCreated = () => {
 
 const renderSearchForm = () => {
 	const template = `
-	<form action="#" class="js-searchItem" id="search-form">
+	<form action="#" class="js-searchItem functional-form">
 	<input type="text" class="js-searchItem_searchByTitle searchItem_element" placeholder="Search by title" required="true">
 	<button type="submit" class="js-searchItem_button searchItem_element">Search</button>
 </form>
@@ -30,22 +31,22 @@ const renderSearchForm = () => {
 const renderItemList = (list) => {
 	itemsContainer.innerHTML = '';
 	itemsContainer.innerHTML = `
-	${list.map(item=>{
-		return fillItemTemplate(item.title, item.description)
+	${list.map((item, id) => {
+		return fillItemTemplate(item.title, item.description, id)
 	}).join('')}
 	`
 }
 
-const fillItemTemplate = (title, description) =>{
+const fillItemTemplate = (title, description, id) => {
 	const template = `
-	<div class="js-item" id="js-item">
-	<h1 class="titleOfTheItem" id="js-item-title">${title}</h1>
-	<p class="descriptionOfTheItem" id="js-item-description">${description}</p>
+	<div class="js-item">
+	<h1 class="titleOfTheItem">${title}</h1>
+	<p class="descriptionOfTheItem">${description}</p>
 	<div class="button-container">
-		<button class="item-functional-button" id="js-edit-button ">Edit</button>
-		<button class="item-functional-button" id="js-delete-button">Delete</button>
-		<button class="item-functional-button" id="js-hold-button">Hold</button>
-		<button class="item-functional-button" id="js-done-button">Done</button>
+		<button class="js-edit-button item-functional-button">Edit</button>
+		<button class="js-delete-button item-functional-button" id="delete-${id}">Delete</button>
+		<button class="js-hold-button item-functional-button">Hold</button>
+		<button class="js-done-button item-functional-button">Done</button>
 	</div>
 	<span>pending</span>
 </div>
@@ -55,31 +56,47 @@ const fillItemTemplate = (title, description) =>{
 
 const onAddNewItemClick = () => {
 	renderFormCreated();
-	const createItemForm = document.getElementById('create-item-form');
+	const createItemForm = document.querySelector('.js-addListItem');
 	createItemForm.addEventListener('submit', onCreateItemSubmit);
 }
 
 const onSearchByItemClick = () => {
 	renderSearchForm()
-	const createSearchForm = document.getElementById('search-form');
+	const createSearchForm = document.querySelector('.js-searchItem');
 	createSearchForm.addEventListener('submit', onSearchByTitle);
 }
 
 const onCreateItemSubmit = (event) => {
-if (event){
-	const title = event.target[0].value;
-	const description = event.target[1].value;
-	itemList.push(new Item (title, description))
-	console.log(itemList);
-	renderItemList(itemList);
-	event.target.reset();
+	if (event) {
+		const title = event.target[0].value;
+		const description = event.target[1].value;
+		itemList.push(new Item(title, description))
+		console.log(itemList);
+		renderItemList(itemList);
+		event.target.reset();
+	}
+	const deleteButtonItems = document.querySelectorAll('.js-delete-button');
+	if (deleteButtonItems) {
+		// debugger;
+		deleteButtonItems.forEach(item => {
+			item.addEventListener('click', onDeleteItemClick)
+		})
+	}
 }
+
+const onDeleteItemClick = (event) => {
+	// debugger;
+	const item = event.target.id;
+	const index = item.split('-', -1).pop();
+	itemList.splice(index, 1)
+	renderItemList(itemList);
+
 }
 
 const onSearchByTitle = (event) => {
 	if (event) {
 		const title = event.target[0].value;
-		const newItemsList = itemList.filter( item => item.title.toLowerCase().includes(title.toLowerCase()))
+		const newItemsList = itemList.filter(item => item.title.toLowerCase().includes(title.toLowerCase()))
 		renderItemList(newItemsList);
 		event.target.reset();
 	}
@@ -87,23 +104,13 @@ const onSearchByTitle = (event) => {
 }
 
 
-
-
 addNewItem.addEventListener('click', onAddNewItemClick);
 searchItem.addEventListener('click', onSearchByItemClick);
 
 
-
-
-
-
 class Item {
-	constructor(title, description){
+	constructor(title, description) {
 		this.title = title;
 		this.description = description;
 	}
 }
-
-
-
-
