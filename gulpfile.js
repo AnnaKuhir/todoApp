@@ -2,7 +2,7 @@ var gulp           = require('gulp'),
 		sass           = require('gulp-sass'),
 		browserSync    = require('browser-sync'),
 		concat         = require('gulp-concat'),
-		uglify         = require('gulp-uglify'),
+		jsmin         = require('gulp-jsmin'),
 		cleanCSS       = require('gulp-clean-css'),
 		rename         = require('gulp-rename'),
 		autoprefixer   = require('gulp-autoprefixer'),
@@ -25,11 +25,10 @@ gulp.task('browser-sync', function() {
 // Минификация пользовательских скриптов проекта и JS библиотек в один файл
 gulp.task('js', function() {
 	return gulp.src([
-		'app/libs/jquery/dist/jquery.min.js',
 		'app/js/common.js', // Всегда в конце
 		])
 	.pipe(concat('scripts.min.js'))
-	.pipe(uglify()) // Минимизировать весь js (на выбор)
+	.pipe(jsmin()) // Минимизировать весь js (на выбор)
 	.pipe(gulp.dest('app/js'))
 	.pipe(browserSync.reload({stream: true}));
 });
