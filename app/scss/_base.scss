@@ -86,3 +86,17 @@ body {
     }
   }
 }
+
+.active-button{
+  background-color:  rgb(12, 188, 24);
+  color: #fff;
+  border: 1px solid rgb(12, 188, 24);
+  border-radius: 5px;
+}
+
+.disabled-button{
+  background-color: rgb(210, 201, 201);
+  color: #000;
+  border: 1px solid rgb(210, 201, 201);
+  border-radius: 5px;
+}
