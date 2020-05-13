@@ -32,23 +32,25 @@ const renderItemList = (list) => {
 	itemsContainer.innerHTML = '';
 	itemsContainer.innerHTML = `
 	${list.map((item, id) => {
-		return fillItemTemplate(item.title, item.description, id)
+		return fillItemTemplate(item, id)
 	}).join('')}
 	`
 }
 
-const fillItemTemplate = (title, description, id) => {
+const fillItemTemplate = (item, id) => {
+	// debugger;
+	const status = StatusEnam[item.status];
 	const template = `
 	<div class="js-item">
-	<h1 class="titleOfTheItem">${title}</h1>
-	<p class="descriptionOfTheItem">${description}</p>
+	<h1 class="titleOfTheItem">${item.title}</h1>
+	<p class="descriptionOfTheItem">${item.description}</p>
 	<div class="button-container">
 		<button class="js-edit-button item-functional-button">Edit</button>
 		<button class="js-delete-button item-functional-button" id="delete-${id}">Delete</button>
 		<button class="js-hold-button item-functional-button">Hold</button>
 		<button class="js-done-button item-functional-button">Done</button>
 	</div>
-	<span>pending</span>
+	<span>${status}</span>
 </div>
 	`
 	return template;
@@ -74,22 +76,31 @@ const onCreateItemSubmit = (event) => {
 		console.log(itemList);
 		renderItemList(itemList);
 		event.target.reset();
+		initializeEventListeners();
 	}
+}
+
+const initializeEventListeners = () => {
 	const deleteButtonItems = document.querySelectorAll('.js-delete-button');
 	if (deleteButtonItems) {
-		// debugger;
 		deleteButtonItems.forEach(item => {
-			item.addEventListener('click', onDeleteItemClick)
+			item.addEventListener('click', onDeleteButtonClick)
 		})
 	}
 }
 
-const onDeleteItemClick = (event) => {
-	// debugger;
+const onDeleteButtonClick = (event) => {
+	debugger;
 	const item = event.target.id;
-	const index = item.split('-', -1).pop();
+	const index = item.split('-').pop();
 	itemList.splice(index, 1)
 	renderItemList(itemList);
+	initializeEventListeners();
+}
+
+const onDoneButtonClick = (event) => {
+	const item = event.target.id;
+	const index = item.split('-').pop(); 
 
 }
 
@@ -99,6 +110,7 @@ const onSearchByTitle = (event) => {
 		const newItemsList = itemList.filter(item => item.title.toLowerCase().includes(title.toLowerCase()))
 		renderItemList(newItemsList);
 		event.target.reset();
+		initializeEventListeners();
 	}
 
 }
@@ -112,5 +124,21 @@ class Item {
 	constructor(title, description) {
 		this.title = title;
 		this.description = description;
+		this.status = StatusEnam.pending;
 	}
 }
+
+const StatusEnam = {
+	'pending' : 'pending' ,
+	'hold' : 'hold',
+	'done' : 'done'
+}
+Object.freeze(StatusEnam);
+
+
+// const status = new Enum(
+// 	'pending',
+// 	'hold',
+// 	'done'
+// )
+
