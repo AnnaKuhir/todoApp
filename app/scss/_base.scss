@@ -10,93 +10,210 @@
 html,
 body {
   height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.container {
-  width: 60vw;
-  margin: 0 auto;
+body{
+  background: #e1bacb;
+}
+
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+
+::-webkit-scrollbar-track {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #aa6d8f; 
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #ba7199; 
+}
+
+
+.wrapper{
+  background-color: #fff;
+  border-radius: 15px;
+  max-width: 700px;
+  margin: 15px auto;
+  height: auto;
+  overflow: auto;
 }
 
 .button-container {
   width: 100%;
   display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 8px 0;
 
   .functional-button {
-    width: 50%;
-    padding: 5px;
+    width: 40%;
+    padding: 10px;
+    color: #aa6d8f;
+    font-size: 16px;
+    font-weight: 600;
+    border:2px solid #aa6d8f;
+    background: #fff;
+    border-radius: 15px;
+
+    &:hover{
+      background: #aa6d8f;
+      color: #fff;
+    }
   }
+
+
+  .title-of-the-app{
+    font-style: italic;
+    font-size: 18px;
+    font-weight: 700;
+    color: #aa6d8f;
+  }
+}
+
+.js-formContainer{
+
+  &:after {
+    content: "";
+    display: block;
+    background: #aa6d8f;
+    height: 1px;
+    margin: 20px auto;
+    width: 600px;
 }
 
 .functional-form{
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
 
-  .addListItem_element{
-    width: 100%;
-    padding: 5px 10px;
-    margin-top: 8px;
+  .addListItem_element,
+  .searchItem_element
+  {
+    width: 95%;
+    border-radius: 10px;
+    border: 1px solid #aa6d8f;
+    margin: 8px;
+    padding: 12px;
+    font-size: 14px;
+    font-style: italic;
+
   }
 
-  .searchItem_element{
-    width: 100%;
-    padding: 5px 10px;
-    margin-top: 8px;
+  .js-addListItem_button,
+  .js-searchItem_button
+  {
+    background-color: #aa6d8f;
+    color: #fff;
+    font-size: 16px;
+    font-style: normal;
   }
+
+
+
   
 }
 
+}
 
-.js-item{
-  width: 100%;
-  border: 1px solid #000;
-  margin-top: 8px;
-  border-radius: 5px;
-  position: relative;
 
-  span{
-    position: absolute;
-    top: -1px;
-    right: 0;
-    padding: 8px;
-    border: 1px solid #000;
+.js-itemContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+
+
+  .js-item{
+    width: 95%;
+    border: 2px solid #aa6d8f;
+    margin: 8px;
     border-radius: 5px;
-    border-top: none;
-    border-right: none;
-  }
+    overflow: hidden;
+    position: relative;
+    background: #fff;
+    color: #aa6d8f;
 
-  .titleOfTheItem{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px;
-    padding: 8px;
-  }
+  
+    span{
+      position: absolute;
+      top: -1px;
+      right: 0;
+      padding: 8px;
+      border-top-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      border-top: none;
+      border-right: none;
+      font-size: 12px;
+      background: #20d1ab;
+      color: #fff;
+    }
+  
+    .titleOfTheItem,
+    .descriptionOfTheItem{
+      font-size: 16px;
+      padding: 15px 75px 15px 15px;
+      line-height: 1.5;
+    }
 
-  .descriptionOfTheItem{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px;
-    padding: 8px;
-  }
+    .titleEditOfTheItem,
+    .descriptionEditOfTheItem{
+      padding: 5px;
+      width: 85%;
+      border-radius: 10px;
+      border: 1px solid #aa6d8f;
+      margin: 7px;
+      color: #707070;
 
-  .button-container{
-    width: 100%;
-    display: flex;
+    }
+  
 
-    .item-functional-button{
-      width: 25%;
+   
+  
+    .button-container{
+      width: 100%;
+      display: flex;
+  
+      .item-functional-button,
+      .item-functional-edit-button{
+        width: 25%;
+        border: 1px solid #aa6d8f;
+        font-size: 16px;
+        padding: 5px;
+        margin: 0 2px;
+        border-radius: 10px;
+        background: #fff;
+        color: #aa6d8f;
+
+        &:active{
+          background: #aa6d8f;
+          color: #fff;
+        }
+
+      }
+
+      .item-functional-edit-button{
+        width: 50%;
+      }
     }
   }
+
 }
 
-.active-button{
-  background-color:  rgb(12, 188, 24);
-  color: #fff;
-  border: 1px solid rgb(12, 188, 24);
-  border-radius: 5px;
-}
 
 .disabled-button{
-  background-color: rgb(210, 201, 201);
-  color: #000;
-  border: 1px solid rgb(210, 201, 201);
-  border-radius: 5px;
+opacity: .5;
+
 }

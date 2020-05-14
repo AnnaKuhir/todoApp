@@ -5,7 +5,11 @@ const itemsContainer = document.querySelector('.js-itemContainer');
 var removeItemButton;
 
 
+
 const itemList = [];
+
+
+
 
 const renderFormCreated = () => {
 	const template = `
@@ -32,7 +36,7 @@ const renderItemList = (list) => {
 	itemsContainer.innerHTML = '';
 	itemsContainer.innerHTML = `
 	${list.map((item, id) => {
-		if (item.isEditing){
+		if (item.isEditing) {
 			return createEditTemplate(item, id);
 		}
 		return createBaseItemTemplate(item, id);
@@ -101,6 +105,8 @@ const createBaseItemTemplate = (item, id) => {
 
 		doneButton.classList.add('disabled-button');
 		doneButton.disabled = 'true';
+
+		statusElement.style.background = 'lightgray';
 	}
 
 	if (item.status === StatusEnam.hold) {
@@ -115,6 +121,8 @@ const createBaseItemTemplate = (item, id) => {
 		doneButton.disabled = 'true';
 
 		holdButton.innerText = 'Unhold';
+		statusElement.style.background = 'red';
+
 
 	}
 	return itemContainer.outerHTML;
@@ -122,7 +130,7 @@ const createBaseItemTemplate = (item, id) => {
 }
 
 const createEditTemplate = (item, id) => {
-	debugger;
+	// debugger;
 	const itemContainer = document.createElement('div');
 	const itemTitle = document.createElement('input');
 	const itemDescriotion = document.createElement('input');
@@ -137,12 +145,12 @@ const createEditTemplate = (item, id) => {
 	itemContainer.appendChild(buttonContainer);
 	itemContainer.appendChild(statusElement);
 
-	itemTitle.className = 'titleOfTheItem';
+	itemTitle.classList.add('titleOfTheItem', 'titleEditOfTheItem');
 	itemTitle.setAttribute('value', item.title)
 	itemTitle.type = 'text';
 	itemTitle.required = 'true';
 
-	itemDescriotion.className = 'descriptionOfTheItem';
+	itemDescriotion.classList.add('descriptionOfTheItem', 'descriptionEditOfTheItem' );
 	itemDescriotion.setAttribute('value', item.description)
 	itemDescriotion.type = 'text';
 	itemDescriotion.required = 'true';
@@ -165,26 +173,6 @@ const createEditTemplate = (item, id) => {
 	return itemContainer.outerHTML;
 
 }
-
-
-// const fillItemTemplate = (item, id) => {
-// 	// debugger;
-// 	const status = StatusEnam[item.status];
-// 	const template = `
-// 	<div class="js-item">
-// 	<h1 class="titleOfTheItem">${item.title}</h1>
-// 	<p class="descriptionOfTheItem">${item.description}</p>
-// 	<div class="button-container">
-// 		<button class="js-edit-button item-functional-button">Edit</button>
-// 		<button class="js-delete-button item-functional-button" id="delete-${id}">Delete</button>
-// 		<button class="js-hold-button item-functional-button" id="hold-${id}">Hold</button>
-// 		<button class="js-done-button item-functional-button" id="done-${id}">Done</button>
-// 	</div>
-// 	<span>${status}</span>
-// </div>
-// 	`
-// 	return template;
-// }
 
 const onAddNewItemClick = () => {
 	renderFormCreated();
@@ -233,21 +221,21 @@ const initializeEventListeners = () => {
 	}
 
 	const editButtonItems = document.querySelectorAll('.js-edit-button');
-	if(editButtonItems){
+	if (editButtonItems) {
 		editButtonItems.forEach(item => {
 			item.addEventListener('click', onEditButtonClick)
 		});
 	}
 
 	const cancelButtonItems = document.querySelectorAll('.js-cancel-button');
-	if(cancelButtonItems){
+	if (cancelButtonItems) {
 		cancelButtonItems.forEach(item => {
-			item.addEventListener('click', onEditButtonClick)
+			item.addEventListener('click', onCalcelButtonClick)
 		});
 	}
 
 	const saveButtonItems = document.querySelectorAll('.js-save-button');
-	if(saveButtonItems){
+	if (saveButtonItems) {
 		saveButtonItems.forEach(item => {
 			item.addEventListener('click', onSaveButtonClick)
 		});
@@ -295,7 +283,8 @@ const onEditButtonClick = (event) => {
 
 }
 
-const onCalcelButtonClick = (event) =>{
+const onCalcelButtonClick = (event) => {
+	// debugger;
 	const item = event.target.id;
 	const index = item.split('-').pop();
 
@@ -350,5 +339,18 @@ const StatusEnam = {
 	'done': 'done'
 }
 Object.freeze(StatusEnam);
+
+
+const initializeItemList = () => {
+		itemList.push(new Item('Утренняя зарядка', 'Подъем в 8 утра, разминка, силовые упражнения, растяжка'));
+		itemList.push(new Item('Курсовой проект', 'Провести расчеты, построить часовые характеристики импульсной сисстемы автоматического управления'));
+		itemList.push(new Item('Ужин', 'Приготовить праздничный ужин для гостей'));
+	
+	renderItemList(itemList);
+	
+	initializeEventListeners();
+}
+
+initializeItemList();
 
 
