@@ -1,3 +1,5 @@
+import {TODO_STATUS} from './entity.js'
+
 const search = (todoList, input) => {
   const result = todoList.filter(item => item.title.toLowerCase().includes(input));
   return result;
@@ -14,20 +16,26 @@ const sortByTitle = (todoList) => {
 };
 
 const sortByStatus = (todoList) => {
-  const pending = [];
-  const hold = [];
-  const done = [];
+  const pendingList = [];
+  const holdList = [];
+  const doneList = [];
 
   todoList.forEach(item => {
-    if (item.status == "pending") pending.push(item);
-    if(item.status == "hold") hold.push(item);
-    if(item.status == "done") done.push(item);
+    if (item.status == TODO_STATUS.pending) pendingList.push(item);
+    if(item.status == TODO_STATUS.hold) holdList.push(item);
+    if(item.status == TODO_STATUS.done) doneList.push(item);
   });
 
-  const sortedPendingByTitle = sortByTitle(pending);
-  const sortedHoldByTitle = sortByTitle(hold);
-  const sortedDoneByTitle = sortByTitle(done);
+  const sortedPendingByTitle = sortByTitle(pendingList);
+  const sortedHoldByTitle = sortByTitle(holdList);
+  const sortedDoneByTitle = sortByTitle(doneList);
 
   return [...sortedPendingByTitle, ...sortedHoldByTitle, ...sortedDoneByTitle];
 
+}
+
+export {
+  search,
+  sortByTitle,
+  sortByStatus
 }
