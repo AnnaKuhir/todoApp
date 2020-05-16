@@ -32,6 +32,45 @@ const renderSearchForm = (container) => {
 	container.innerHTML = template;
 }
 
+const renderDropboxStatusContainer = () => {
+	const template = `
+	<div class="dropbox-container_dropdown">
+	<button class="dropbtn bulk-action-btn">Bulk actions</button>
+	<div class="dropdown-content">
+		<button type="button" class="btn hold-btn">Hold</button>
+		<button type="button" class="btn done-btn">Mark as done</button>
+		<button type="button" class="btn remove-btn">Remove all</button>
+	</div>
+</div>
+	`
+
+	return template;
+}
+
+const renderDropboxSortContainer = () => {
+	const template = `
+	<div class="dropbox-container_dropdown">
+	<button class="dropbtn sort-btn">Sort</button>
+	<div class="dropdown-content">
+		<button type="button" class="btn sort-by-status-btn">By status</button>
+		<button type="button" class="btn sort-by-title-btn">By title</button>
+	</div>
+</div>
+	`
+	return template;
+}
+
+const renderDropboxContent = (container, options) => {
+	if(options && options.clearContainer) {
+		container.innerHTML = ''
+		return;
+	}
+	container.innerHTML = `
+	${renderDropboxStatusContainer()} 
+	${renderDropboxSortContainer()} 
+	`
+}
+
 const renderTodoItem = (todo) => {
 	const template = `
 	<div class="js-item" id="${todo.id}">
@@ -58,8 +97,16 @@ const renderTodoList = (container, list) => {
 	`
 }
 
+const clearContainer = (container) => {
+	if(container) {
+		container.innerHTML = '';
+	}
+}
+
 export {
 	renderCreateForm,
 	renderSearchForm,
-	renderTodoList
+	renderTodoList,
+	renderDropboxContent,
+	clearContainer
 }

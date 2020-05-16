@@ -31,6 +31,7 @@ const initTodos = () => {
     'Курсовой проект', 
     'Провести расчеты, построить часовые характеристики импульсной сисстемы автоматического управления', 
     1);
+    secondTodo.status = TODO_STATUS.done;
   const thirdTodo = createTodo (
     'Ужин', 
     'Приготовить праздничный ужин для гостей',
@@ -71,10 +72,13 @@ const setStatus = (id, status) => {
   }
 };
 
-const setStatusToAll = (status) => {
+const setStatusToAll = (status, options) => {
+  // debugger;
   if(status){
     todoList.forEach(todo => {
-      todo.status = status
+      if (!options || !options.ignoreStatus.includes(todo.status)){
+        todo.status = status
+      }
     });
   }
 };

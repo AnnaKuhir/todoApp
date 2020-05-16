@@ -5,6 +5,9 @@ const search = (todoList, input) => {
   return result;
 };
 
+
+
+
 const sortByTitle = (todoList) => {
   if (todoList || todoList.length > 0){
    return todoList.sort((a, b) => {
@@ -33,6 +36,8 @@ const sortByStatus = (todoList) => {
   return [...sortedPendingByTitle, ...sortedHoldByTitle, ...sortedDoneByTitle];
 
 }
+
+
 
 export {
   search,

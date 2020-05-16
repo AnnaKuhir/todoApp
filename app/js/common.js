@@ -15,7 +15,9 @@ import {
 import {
 	renderCreateForm,
 	renderSearchForm,
-	renderTodoList
+	renderTodoList,
+	renderDropboxContent,
+	clearContainer
 } from './templates.js';
 
 import {
@@ -26,10 +28,12 @@ import {
 
 import {
 	initInitialButtonsListeners,
-	initFormButtonListeners
+	initFormButtonListeners,
+	initDropboxListeners
 } from './listeners.js'
 
 const itemContainer = document.querySelector('.js-itemContainer');
+const dropboxContainer = document.querySelector('.dropbox-container');
 
 
 const onAddNewTodoClick = () => {
@@ -71,20 +75,63 @@ const onSearchTodoClick = (event) => {
 	form.reset();
 }
 
+const onSortByTitleClick = () => {
+	const sortedList = sortByTitle(todoList);
+	renderTodoList(itemContainer, sortedList)
+}
 
+const onSortByStatusClick = () => {
+	const sortedList = sortByStatus(todoList);
+	renderTodoList(itemContainer, sortedList)
+}
 
+const onRemoveAllClick = () => {
+	deteleAll();
+	renderTodoList(itemContainer, todoList);
+	clearContainer(dropboxContainer)
+}
 
-const onCreateItemSubmit = (event) => {
-	if (event) {
-		const title = event.target[0].value;
-		const description = event.target[1].value;
-		itemList.push(new Item(title, description))
-		console.log(itemList);
-		renderItemList(itemList);
-		event.target.reset();
-		initializeEventListeners();
+const onHoldToAllStatusClick = (event) => {
+	const button = event.target;
+	if(button.classList.contains('hold-btn')){
+		setStatusToAll(TODO_STATUS.hold, {
+			ignoreStatus: [TODO_STATUS.done]
+		});
+		switchElement(button, 'Unhold', 'hold-btn', 'unhold-btn');
+	} else {
+		setStatusToAll(TODO_STATUS.pending, {
+			ignoreStatus: [TODO_STATUS.done]
+		});
+		switchElement(button, 'Hold', 'unhold-btn', 'hold-btn');
+	}
+	renderTodoList(itemContainer, todoList);
+}
+
+const switchElement = (element, innerText, oldClass, newClass) => {
+	if (element) {
+		element.innerText = innerText;
+		element.classList.remove(oldClass);
+		element.classList.add(newClass)
 	}
 }
+
+const onDoneToAllStatusClick = () => {
+	setStatusToAll(TODO_STATUS.done)
+	renderTodoList(itemContainer, todoList)
+}
+
+
+// const onCreateItemSubmit = (event) => {
+// 	if (event) {
+// 		const title = event.target[0].value;
+// 		const description = event.target[1].value;
+// 		itemList.push(new Item(title, description))
+// 		console.log(itemList);
+// 		renderItemList(itemList);
+// 		event.target.reset();
+// 		initializeEventListeners();
+// 	}
+// }
 
 // const initializeEventListeners = () => {
 // 	const deleteButtonItems = document.querySelectorAll('.js-delete-button');
@@ -214,6 +261,10 @@ const init = () => {
 	if (list && itemContainer) {
 		renderTodoList(itemContainer, list);
 	}
+	if(todoList && todoList.length > 0){
+		renderDropboxContent(dropboxContainer)
+		initDropboxListeners();
+	}
 }
 init();
 
@@ -222,5 +273,11 @@ export {
 	onAddNewTodoClick,
 	onSearchByTodoClick,
 	onCreateTodoClick,
-	onSearchTodoClick
+	onSearchTodoClick,
+	onSortByTitleClick,
+	onSortByStatusClick,
+	onRemoveAllClick,
+ onHoldToAllStatusClick,
+ onDoneToAllStatusClick
+
 }
