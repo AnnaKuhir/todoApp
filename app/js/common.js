@@ -66,8 +66,7 @@ const onCreateTodoClick = (event) => {
 	const description = form[1].value;
 	const todo = createTodo(title, description, getAllTodos().length);
 	addTodo(todo);
-	renderTodoList(itemContainer, getTodos());
-	initControlTodoListeners();
+	renderWithTimeout(itemContainer, getTodos())
 	form.reset();
 }
 
@@ -77,8 +76,7 @@ const onSearchTodoClick = (event) => {
 	const form = event.target.parentNode;
 	const input = form[0].value;
 	const filteredList = search(getTodos(), input);
-	renderTodoList(itemContainer, filteredList);
-	initControlTodoListeners();
+	renderWithTimeout(itemContainer,filteredList)
 	initReturnAllAfterSearchControl();
 	if (filteredList.length === 0) {
 		clearContainer(dropboxContainer);
@@ -88,19 +86,17 @@ const onSearchTodoClick = (event) => {
 
 const onSortByTitleClick = () => {
 	const sortedList = sortByTitle(getTodos());
-	renderTodoList(itemContainer, sortedList)
-	initControlTodoListeners();
+	renderWithTimeout(itemContainer,sortedList);
 }
 
 const onSortByStatusClick = () => {
 	const sortedList = sortByStatus(getTodos());
-	renderTodoList(itemContainer, sortedList);
-	initControlTodoListeners();
+	renderWithTimeout(itemContainer,sortedList);
 }
 
 const onRemoveAllClick = () => {
 	deteleAll();
-	renderTodoList(itemContainer, getTodos());
+	renderWithTimeout(itemContainer,getTodos());
 	clearContainer(dropboxContainer);
 }
 
@@ -117,8 +113,7 @@ const onHoldToAllStatusClick = (event) => {
 		});
 		switchElement(button, 'Hold', 'unhold-btn', 'hold-btn');
 	}
-	renderTodoList(itemContainer, getAllTodos());
-	initControlTodoListeners();
+	renderWithTimeout(itemContainer,getTodos());
 }
 
 const switchElement = (element, innerText, oldClass, newClass) => {
@@ -131,15 +126,15 @@ const switchElement = (element, innerText, oldClass, newClass) => {
 
 const onDoneToAllStatusClick = () => {
 	setStatusToAll(TODO_STATUS.done)
-	renderTodoList(itemContainer, getTodos());
-	initControlTodoListeners();
+	renderWithTimeout(itemContainer,getTodos());
+
 }
 
 const onDeleteButtonClick = (event) => {
 	const id = +event.target.parentNode.id;
 	deteleTodo(id);
-	renderTodoList(itemContainer, getTodos());
-	initControlTodoListeners();
+	renderWithTimeout(itemContainer,getTodos());
+
 	if (getTodos().length === 0) {
 		clearContainer(dropboxContainer);
 	}
@@ -148,8 +143,8 @@ const onDeleteButtonClick = (event) => {
 const onDoneTodoClick = (event) => {
 	const id = +event.target.parentNode.id;
 	setStatus(id, TODO_STATUS.done);
-	renderTodoList(itemContainer, getTodos());
-	initControlTodoListeners();
+	renderWithTimeout(itemContainer,getTodos());
+
 }
 
 const onHoldTodoClick = (event) => {
@@ -162,14 +157,24 @@ const onHoldTodoClick = (event) => {
 		setStatus(id, TODO_STATUS.hold);
 	}
 	debugger
-	renderTodoList(itemContainer, getTodos());
-	initControlTodoListeners();
+	
+	renderWithTimeout(itemContainer,getTodos());
+
+
+}
+
+const renderWithTimeout = (container, list) => {
+	container.innerHTML = '<div class="lds-ripple"><div></div><div></div></div>'
+	setTimeout(() => {
+		renderTodoList(itemContainer, list);
+		initControlTodoListeners();
+	}, 500);
 }
 
 const onReturnAllTodosClick = () => {
 	const list = returnTodos();
-	renderTodoList(itemContainer, list);
-	initControlTodoListeners();
+	renderWithTimeout(itemContainer,list);
+
 	renderDropboxContent(dropboxContainer);
 	initDropboxListeners();
 }
@@ -183,16 +188,15 @@ const onEditTodoClick = (event) => {
 	const id = +event.target.parentNode.id;
 	const todo = getTodoById(id);
 	todo.isEdited = true;
-	renderTodoList(itemContainer, getTodos());
-	initControlTodoListeners();
+	renderWithTimeout(itemContainer, getTodos());
 }
 
 const onCancelButtonClick = (event) => {
 	const id = +event.target.parentNode.id;
 	const todo = getTodoById(id);
 	todo.isEdited = false;
-	renderTodoList(itemContainer, getTodos());
-	initControlTodoListeners();
+	renderWithTimeout(itemContainer,getTodos());
+
 }
 
 const onSaveButtonClick = (event) => {
@@ -204,11 +208,16 @@ const onSaveButtonClick = (event) => {
 	const editedTodo = createTodo(title, description, id)
 	editTodo(editedTodo);
 
-	renderTodoList(itemContainer, getTodos());
-	initControlTodoListeners();
+	renderWithTimeout(itemContainer,getTodos());
+
 }
 
+// const setTimeout = (container) => {
+// 	container.innetHtml = '<div class="lds-ripple"><div></div><div></div></div>'
+// 	setTimeout(() => {
 
+// 	}, 5000);
+// }
 
 
 
