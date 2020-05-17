@@ -156,7 +156,7 @@ const onHoldTodoClick = (event) => {
 	const button = event.target;
 	const id = +button.parentNode.id;
 	const todo = getTodoById(id);
-	if(todo.status == TODO_STATUS.hold) {
+	if (todo.status == TODO_STATUS.hold) {
 		setStatus(id, TODO_STATUS.pending);
 	} else {
 		setStatus(id, TODO_STATUS.hold);
@@ -174,18 +174,41 @@ const onReturnAllTodosClick = () => {
 	initDropboxListeners();
 }
 
-const onCloseFormClick = () =>{
+const onCloseFormClick = () => {
 	clearContainer(formContainer)
 }
 
 const onEditTodoClick = (event) => {
-	debugger;
+	// debugger;
 	const id = +event.target.parentNode.id;
 	const todo = getTodoById(id);
 	todo.isEdited = true;
 	renderTodoList(itemContainer, getTodos());
 	initControlTodoListeners();
 }
+
+const onCancelButtonClick = (event) => {
+	const id = +event.target.parentNode.id;
+	const todo = getTodoById(id);
+	todo.isEdited = false;
+	renderTodoList(itemContainer, getTodos());
+	initControlTodoListeners();
+}
+
+const onSaveButtonClick = (event) => {
+	const id = +event.target.parentNode.id;
+
+	const title = event.target.parentNode.parentNode.childNodes[0].value;
+	const description = event.target.parentNode.parentNode.childNodes[1].value;
+
+	const editedTodo = createTodo(title, description, id)
+	editTodo(editedTodo);
+
+	renderTodoList(itemContainer, getTodos());
+	initControlTodoListeners();
+}
+
+
 
 
 
@@ -221,6 +244,8 @@ export {
 	onHoldTodoClick,
 	onReturnAllTodosClick,
 	onCloseFormClick,
-	onEditTodoClick
+	onEditTodoClick,
+	onCancelButtonClick,
+	onSaveButtonClick
 
 }

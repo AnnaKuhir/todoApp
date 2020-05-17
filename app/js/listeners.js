@@ -14,7 +14,9 @@ import {
   onHoldTodoClick,
   onReturnAllTodosClick,
   onCloseFormClick,
-  onEditTodoClick
+  onEditTodoClick,
+  onCancelButtonClick,
+  onSaveButtonClick
 } from './common.js'
 
 import {
@@ -91,6 +93,8 @@ const initControlTodoListeners = () => {
   const doneTodoButtons = document.querySelectorAll('.js-done-button');
   const holdTodoButtons = document.querySelectorAll('.js-hold-button');
   const editTodoButtons = document.querySelectorAll('.js-edit-button');
+  const cancelTodoButtons = document.querySelectorAll('.js-cancel-button');
+  const saveTodoButtons = document.querySelectorAll('.js-save-button');
 
 
 
@@ -112,6 +116,16 @@ const initControlTodoListeners = () => {
   if(editTodoButtons){
     editTodoButtons.forEach(editTodoButtons => {
       editTodoButtons.addEventListener('click', onEditTodoClick)
+    })
+  }
+  if(cancelTodoButtons){
+    cancelTodoButtons.forEach(cancelTodoButtons => {
+      cancelTodoButtons.addEventListener('click', onCancelButtonClick)
+    })
+  }
+  if(saveTodoButtons){
+    saveTodoButtons.forEach(saveTodoButtons => {
+      saveTodoButtons.addEventListener('click', onSaveButtonClick)
     })
   }
 }
