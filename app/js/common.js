@@ -161,6 +161,7 @@ const onHoldTodoClick = (event) => {
 	} else {
 		setStatus(id, TODO_STATUS.hold);
 	}
+	debugger
 	renderTodoList(itemContainer, getTodos());
 	initControlTodoListeners();
 }
@@ -175,6 +176,15 @@ const onReturnAllTodosClick = () => {
 
 const onCloseFormClick = () =>{
 	clearContainer(formContainer)
+}
+
+const onEditTodoClick = (event) => {
+	debugger;
+	const id = +event.target.parentNode.id;
+	const todo = getTodoById(id);
+	todo.isEdited = true;
+	renderTodoList(itemContainer, getTodos());
+	initControlTodoListeners();
 }
 
 
@@ -211,5 +221,6 @@ export {
 	onHoldTodoClick,
 	onReturnAllTodosClick,
 	onCloseFormClick,
+	onEditTodoClick
 
 }

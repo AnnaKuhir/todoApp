@@ -75,67 +75,107 @@ const renderDropboxContent = (container, options) => {
 	`
 }
 
-const renderTodoItem = (todo, options) => {
-	const template = `
-	<div class="js-item">
-	<h1 class="js-item-title titleOfTheItem">${todo.title}</h1>
-	<p class="js-item-description descriptionOfTheItem">${todo.description}</p>
-	${renderTodoBtnContainer(todo, options)}
-	<span class="status-element">${todo.status}</span>
-</div>
-	`
-	return template;
-}
+// const renderEditTodoItem = (todo, options) => {
+// 	const template = `
+// 	<div class="js-item">
+// 	<h1 class="js-item-title titleOfTheItem">${todo.title}</h1>
+// 	<p class="js-item-description descriptionOfTheItem">${todo.description}</p>
+// 	${renderTodoBtnContainer(todo, options)}
+// 	<span class="status-element">${todo.status}</span>
+// </div>
+// 	`
+// 	return template;
+// }
 
-const renderEditTodoItem = (todo) => {
-	const template = `
-	<div class="js-item">
-	<input type="text" class="js-item-title input-title">
-  <input type="text" class="js-item-description input-description">
-	${renderTodoBtnContainer(todo, options)}
-	<span class="status-element">${todo.status}</span>
-</div>
-	`
-	return template;
-}
+// const renderEditTodoItem = (todo) => {
+// 	const template = `
+// 	<div class="js-item">
+// 	<input type="text" class="js-item-title input-title">
+//   <input type="text" class="js-item-description input-description">
+// 	${renderTodoBtnContainer(todo, options)}
+// 	<span class="status-element">${todo.status}</span>
+// </div>
+// 	`
+// 	return template;
+// }
 
-const renderTodoBtnContainer = (todo, options) => {
-	if (options) {
-		const template = `
-		<div class="button-container" id="${todo.id}">
-			<button class="js-edit-button item-functional-button 
-						${options.editBtn.classes.map(x => x)}" 
-					>
-						Edit
-			</button>
-			<button class="js-delete-button item-functional-button 
-						${options.deleteBtn.classes.map(x => x)}" 
-						>
-						Delete
-			</button>
-			<button class="js-hold-button item-functional-button 
-						${options.holdBtn.classes.map(x => x)}" 
-						>
-						${options.holdBtn.innerText}
-			</button>
-			<button class="js-done-button item-functional-button 
-						${options.doneBtn.classes.map(x => x)}" 
-						>
-						Done
-			</button>
-		</div>
-		`
-		return template;
-	}
-}
+// const renderTodoBtnContainer = (todo, options) => {
+// 	if (options) {
+// 		debugger;
+// 		const template = `
+// 		<div class="button-container" id="${todo.id}">
+// 			<button class="js-edit-button item-functional-button 
+// 						${options.editBtn.classes.map(x => x)}" 
+// 					>
+// 						Edit
+// 			</button>
+// 			<button class="js-delete-button item-functional-button 
+// 						${options.deleteBtn.classes.map(x => x)}" 
+// 						>
+// 						Delete
+// 			</button>
+// 			<button class="js-hold-button item-functional-button 
+// 						${options.holdBtn.classes.map(x => x)}" 
+// 						>
+// 						${options.holdBtn.innerText}
+// 			</button>
+// 			<button class="js-done-button item-functional-button 
+// 						${options.doneBtn.classes.map(x => x)}" 
+// 						>
+// 						Done
+// 			</button>
+// 		</div>
+// 		`
+// 		return template;
+// 	}
+// }
+
+// const renderTodoBtnContainer = (todo, options) => {
+// 	if (options) {
+// 		// debugger;
+// 		const buttonContainer = document.createElement('div');
+// 		const editButton = document.createElement('button');
+// 		const deleteButton = document.createElement('button');
+// 		const holdButton = document.createElement('button');
+// 		const doneButton = document.createElement('button');
+
+// 		buttonContainer.appendChild(editButton);
+// 		buttonContainer.appendChild(deleteButton);
+// 		buttonContainer.appendChild(holdButton);
+// 		buttonContainer.appendChild(doneButton);
+// 		buttonContainer.classList.add('button-container');
+// 		buttonContainer.id = todo.id;
+
+// 		editButton.classList.add(options.editBtn.classes.map( x => x));
+// 		editButton.innerText = 'Edit';
+// 		editButton.disabled = options.editBtn.disabled;
+
+// 		deleteButton.classList.add(options.deleteBtn.classes.map( x => x));
+// 		deleteButton.innerText = 'Delete';
+// 		deleteButton.disabled = options.deleteBtn.disabled;
+
+// 		holdButton.classList.add(options.holdBtn.classes.map( x => x));
+// 		holdButton.innerText = options.holdBtn.innerText;
+// 		holdButton.disabled = options.holdBtn.disabled;
+
+// 		doneButton.classList.add(options.doneBtn.classes.map( x => x));
+// 		doneButton.innerText = 'Done';
+// 		doneButton.disabled = options.doneBtn.disabled;
+
+// 		return buttonContainer.outerHTML;
+// 	}
+// }
 
 const renderTodoList = (container, list) => {
 	// debugger
 	container.innerHTML = '';
 	container.innerHTML = `
 	${list.map((item) => {
-		const options = setButtonsOptions(item);
-		return renderTodoItem(item, options);
+		// const options = setButtonsOptions(item);
+		if (item.isEdited){
+		return	renderEditTodoItem(item);
+		}
+		return renderTodoItem(item);
 	}).join('')}
 	`
 }
@@ -177,6 +217,135 @@ const setButtonsOptions = (todo) => {
 	// }
 	return options;
 }
+
+
+const renderTodoItem = (todo) => {
+	// debugger;
+	const itemContainer = document.createElement('div');
+	const itemTitle = document.createElement('h1');
+	const itemDescriotion = document.createElement('p');
+	const buttonContainer = document.createElement('div');
+	const editButton = document.createElement('button');
+	const deleteButton = document.createElement('button');
+	const holdButton = document.createElement('button');
+	const doneButton = document.createElement('button');
+	const statusElement = document.createElement('span');
+
+	itemContainer.className = 'js-item';
+	itemContainer.appendChild(itemTitle);
+	itemContainer.appendChild(itemDescriotion);
+	itemContainer.appendChild(buttonContainer);
+	itemContainer.appendChild(statusElement);
+
+	itemTitle.className = 'titleOfTheItem';
+	itemTitle.innerText = todo.title;
+
+	itemDescriotion.className = 'descriptionOfTheItem';
+	itemDescriotion.innerText = todo.description;
+
+	buttonContainer.className = 'button-container';
+	buttonContainer.appendChild(editButton);
+	buttonContainer.appendChild(deleteButton);
+	buttonContainer.appendChild(holdButton);
+	buttonContainer.appendChild(doneButton);
+	buttonContainer.id = todo.id;
+
+	editButton.classList.add('js-edit-button', 'item-functional-button');
+	editButton.innerText = 'Edit';
+
+	deleteButton.classList.add('js-delete-button', 'item-functional-button');
+	deleteButton.innerText = 'Delete';
+
+
+	holdButton.classList.add('js-hold-button', 'item-functional-button');
+	holdButton.innerText = 'Hold';
+
+
+	doneButton.classList.add('js-done-button', 'item-functional-button');
+	doneButton.innerText = 'Done';
+
+	statusElement.className = 'status-element';
+	statusElement.innerText = todo.status;
+
+
+	if (todo.status === TODO_STATUS.done) {
+		editButton.classList.add('disabled-button');
+		editButton.disabled = 'true';
+
+		holdButton.classList.add('disabled-button');
+		holdButton.disabled = 'true';
+
+		doneButton.classList.add('disabled-button');
+		doneButton.disabled = 'true';
+	}
+
+	if (todo.status === TODO_STATUS.hold) {
+		editButton.classList.add('disabled-button');
+		editButton.disabled = 'true';
+
+		deleteButton.classList.add('disabled-button');
+		deleteButton.disabled = 'true';
+
+
+		doneButton.classList.add('disabled-button');
+		doneButton.disabled = 'true';
+
+		holdButton.innerText = 'Unhold';
+
+	}
+	return itemContainer.outerHTML;
+
+}
+
+const renderEditTodoItem = (todo) => {
+	debugger;
+	const itemContainer = document.createElement('div');
+	const itemTitle = document.createElement('input');
+	const itemDescriotion = document.createElement('input');
+	const buttonContainer = document.createElement('div');
+	const cancelButton = document.createElement('button');
+	const saveButton = document.createElement('button');
+	const statusElement = document.createElement('span');
+
+	itemContainer.className = 'js-item';
+	itemContainer.appendChild(itemTitle);
+	itemContainer.appendChild(itemDescriotion);
+	itemContainer.appendChild(buttonContainer);
+	itemContainer.appendChild(statusElement);
+
+	itemTitle.className = 'titleOfTheItem';
+	itemTitle.setAttribute('value', todo.title)
+	itemTitle.type = 'text';
+	itemTitle.required = 'true';
+
+	itemDescriotion.className = 'descriptionOfTheItem';
+	itemDescriotion.setAttribute('value', todo.description)
+	itemDescriotion.type = 'text';
+	itemDescriotion.required = 'true';
+
+	buttonContainer.className = 'button-container';
+	buttonContainer.appendChild(cancelButton);
+	buttonContainer.appendChild(saveButton);
+	buttonContainer.id = todo.id;
+
+	cancelButton.classList.add('js-cancel-button', 'item-functional-edit-button');
+	cancelButton.innerText = 'Cancel';
+
+	saveButton.classList.add('js-save-button', 'item-functional-edit-button');
+	saveButton.innerText = 'Save';
+
+	statusElement.className = 'status-element';
+	statusElement.innerText = todo.status;
+
+	return itemContainer.outerHTML;
+
+}
+
+
+
+
+
+
 
 const clearContainer = (container) => {
 	if (container) {

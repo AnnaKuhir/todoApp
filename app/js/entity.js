@@ -7,6 +7,7 @@ const createTodo = (title, description, id) => {
     description: description,
     status: TODO_STATUS.pending,
     isDeleted: false,
+    isEdited: false
   }
 }
 

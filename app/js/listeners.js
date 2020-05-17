@@ -14,6 +14,7 @@ import {
   onHoldTodoClick,
   onReturnAllTodosClick,
   onCloseFormClick,
+  onEditTodoClick
 } from './common.js'
 
 import {
@@ -88,7 +89,9 @@ const initDropboxListeners = () => {
 const initControlTodoListeners = () => {
   const deleteTodoButtons = document.querySelectorAll('.js-delete-button');
   const doneTodoButtons = document.querySelectorAll('.js-done-button');
-  const holdTodoButtons = document.querySelectorAll('.js-hold-button')
+  const holdTodoButtons = document.querySelectorAll('.js-hold-button');
+  const editTodoButtons = document.querySelectorAll('.js-edit-button');
+
 
 
   if(deleteTodoButtons){
@@ -104,6 +107,11 @@ const initControlTodoListeners = () => {
   if(holdTodoButtons){
     holdTodoButtons.forEach(holdTodoButton => {
       holdTodoButton.addEventListener('click', onHoldTodoClick)
+    })
+  }
+  if(editTodoButtons){
+    editTodoButtons.forEach(editTodoButtons => {
+      editTodoButtons.addEventListener('click', onEditTodoClick)
     })
   }
 }
