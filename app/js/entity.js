@@ -6,6 +6,7 @@ const createTodo = (title, description, id) => {
     title: title,
     description: description,
     status: TODO_STATUS.pending,
+    isDeleted: false,
   }
 }
 
@@ -16,31 +17,45 @@ const TODO_STATUS = {
 };
 
 const getTodos = () => {
-  if (todoList.length === 0){
-    initTodos()
-  }
+  return todoList.filter(x => !x.isDeleted);
+};
+
+const getAllTodos = () => {
   return todoList;
+}
+
+const returnTodos = () => {
+  // debugger;
+  todoList.forEach(todo => {
+    todo.isDeleted = false;
+  });
+  return todoList;
+}
+
+const getTodoById = (id) => {
+  const todo = todoList.find(x => x.id === id);
+  return todo;
 };
 
 const initTodos = () => {
-  const firstTodo = createTodo (
-    'Утренняя зарядка', 
+  const firstTodo = createTodo(
+    'Утренняя зарядка',
     'Подъем в 8 утра, разминка, силовые упражнения, растяжка',
-     0);
-  const secondTodo = createTodo (
-    'Курсовой проект', 
-    'Провести расчеты, построить часовые характеристики импульсной сисстемы автоматического управления', 
+    0);
+  firstTodo.status = TODO_STATUS.hold
+  const secondTodo = createTodo(
+    'Курсовой проект',
+    'Провести расчеты, построить часовые характеристики импульсной системы автоматического управления',
     1);
-    secondTodo.status = TODO_STATUS.done;
-  const thirdTodo = createTodo (
-    'Ужин', 
+  const thirdTodo = createTodo(
+    'Ужин',
     'Приготовить праздничный ужин для гостей',
-     2);
+    2);
   todoList.push(firstTodo, secondTodo, thirdTodo);
 };
 
 const addTodo = (todo) => {
-  if(!todo || !todo.title || !todo.description || !todo.id){
+  if (!todo || !todo.title || !todo.description || !todo.id) {
     return false;
   }
   todoList.push(todo)
@@ -48,21 +63,21 @@ const addTodo = (todo) => {
 };
 
 const deteleTodo = (id) => {
- const index = todoList.findIndex(x => x.id === id);
- if(index !== -1){
-   todoList.splise(index, 1)
-   return true;
- }
- return false;
+  const index = todoList.findIndex(x => x.id === id);
+  if (index !== -1) {
+    todoList[index].isDeleted = true;
+    return true;
+  }
+  return false;
 };
 
 const editTodo = (editedTodo) => {
   const index = todoList.findIndex(x => x.id === editedTodo.id);
- if(index !== -1){
-   todoList[index] = editedTodo;
-   return true;
- }
- return false;
+  if (index !== -1) {
+    todoList[index] = editedTodo;
+    return true;
+  }
+  return false;
 };
 
 const setStatus = (id, status) => {
@@ -73,10 +88,9 @@ const setStatus = (id, status) => {
 };
 
 const setStatusToAll = (status, options) => {
-  // debugger;
-  if(status){
+  if (status) {
     todoList.forEach(todo => {
-      if (!options || !options.ignoreStatus.includes(todo.status)){
+      if (!options || !options.ignoreStatus.includes(todo.status)) {
         todo.status = status
       }
     });
@@ -85,17 +99,24 @@ const setStatusToAll = (status, options) => {
 
 const deteleAll = () => {
   const elements = todoList.length;
-  if (elements > 0){
-    todoList.splice(0, elements)
+  if (elements > 0) {
+    todoList.forEach(todo => {
+      todo.isDeleted = true
+    });
   }
 }
 
 
+
+
 export {
-  todoList,
+  initTodos,
   createTodo,
   TODO_STATUS,
   getTodos,
+  getAllTodos,
+  getTodoById,
+  returnTodos,
   addTodo,
   deteleTodo,
   editTodo,

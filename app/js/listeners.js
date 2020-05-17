@@ -8,12 +8,19 @@ import {
   onSortByStatusClick,
   onRemoveAllClick,
   onHoldToAllStatusClick,
-  onDoneToAllStatusClick
+  onDoneToAllStatusClick,
+  onDeleteButtonClick,
+  onDoneTodoClick,
+  onHoldTodoClick,
+  onReturnAllTodosClick,
+  onCloseFormClick,
 } from './common.js'
 
 import {
   toggleDropbox
 } from './dropbox.js'
+
+// import { todoList } from './entity.js';
  
 const initInitialButtonsListeners = () =>{
   const addButton = document.querySelector('.js-addNew-button');
@@ -30,6 +37,7 @@ const initInitialButtonsListeners = () =>{
 const initFormButtonListeners = () => {
   const addTodoButton = document.querySelector('.js-addListItem_button');
   const searchTodoButton = document.querySelector('.js-searchItem_button');
+  const closeFormButton = document.querySelector('.close-form-btn')
 
   if(addTodoButton){
     addTodoButton.addEventListener('click', onCreateTodoClick)
@@ -37,6 +45,10 @@ const initFormButtonListeners = () => {
 
   if(searchTodoButton){
     searchTodoButton.addEventListener('click', onSearchTodoClick)
+  }
+
+  if(closeFormButton){
+    closeFormButton.addEventListener('click', onCloseFormClick)
   }
 }
 
@@ -50,10 +62,10 @@ const initDropboxListeners = () => {
   const doneStatusToAll = document.querySelector('.done-btn')
 
   if(bulkActionsButton){
-    bulkActionsButton.addEventListener('click', toggleDropbox)
+    bulkActionsButton.addEventListener('mouseover', toggleDropbox)
   }
   if(sortButton){
-    sortButton.addEventListener('click', toggleDropbox)
+    sortButton.addEventListener('mouseover', toggleDropbox)
   }
   if(sortByTitleButton){
     sortByTitleButton.addEventListener('click', onSortByTitleClick)
@@ -73,9 +85,45 @@ const initDropboxListeners = () => {
 
 }
 
+const initControlTodoListeners = () => {
+  const deleteTodoButtons = document.querySelectorAll('.js-delete-button');
+  const doneTodoButtons = document.querySelectorAll('.js-done-button');
+  const holdTodoButtons = document.querySelectorAll('.js-hold-button')
+
+
+  if(deleteTodoButtons){
+    deleteTodoButtons.forEach(deleteTodoButton => {
+      deleteTodoButton.addEventListener('click', onDeleteButtonClick)
+    })
+  }
+  if(doneTodoButtons){
+    doneTodoButtons.forEach(doneTodoButton => {
+      doneTodoButton.addEventListener('click', onDoneTodoClick)
+    })
+  }
+  if(holdTodoButtons){
+    holdTodoButtons.forEach(holdTodoButton => {
+      holdTodoButton.addEventListener('click', onHoldTodoClick)
+    })
+  }
+}
+
+const initReturnAllControl = () => {
+  const returnAll = document.querySelector('.btn-return-all');
+  if(returnAll){
+    returnAll.addEventListener('click', onReturnAllTodosClick )
+  }
+}
+
+
+
+
+
 export{
   initInitialButtonsListeners,
   initFormButtonListeners,
   initDropboxListeners,
+  initControlTodoListeners,
+  initReturnAllControl,
   
 } 

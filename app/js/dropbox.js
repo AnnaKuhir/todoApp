@@ -1,5 +1,4 @@
 const toggleDropbox = (event) => {
-  // debugger;
   const element = event.target.parentNode.lastElementChild;
   element.classList.toggle("show");
 }

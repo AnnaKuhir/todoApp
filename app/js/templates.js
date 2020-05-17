@@ -1,7 +1,10 @@
+import { TODO_STATUS } from "./entity.js";
+
 const renderCreateForm = (container) => {
 
 	const template = `
-	<form class="js-addListItem functional-form">
+	<button type="button" class="btn close-form-btn"> X </button>
+ 	<form class="js-addListItem functional-form">
 				<input type="text" 
 							 class="js-addListItem_title addListItem_element "
 							 placeholder="Enter title" required="true">
@@ -18,6 +21,7 @@ const renderCreateForm = (container) => {
 
 const renderSearchForm = (container) => {
 	const template = `
+	<button type="button" class="btn close-form-btn"> X </button>
 	<form class="js-searchItem functional-form">
 		<input type="text" 
 					 class="js-searchItem_searchByTitle searchItem_element"
@@ -37,9 +41,9 @@ const renderDropboxStatusContainer = () => {
 	<div class="dropbox-container_dropdown">
 	<button class="dropbtn bulk-action-btn">Bulk actions</button>
 	<div class="dropdown-content">
-		<button type="button" class="btn hold-btn">Hold</button>
-		<button type="button" class="btn done-btn">Mark as done</button>
-		<button type="button" class="btn remove-btn">Remove all</button>
+		<span type="button" class="btn hold-btn">Hold</span>
+		<span type="button" class="btn done-btn">Mark as done</span>
+		<span type="button" class="btn remove-btn">Remove all</span>
 	</div>
 </div>
 	`
@@ -52,8 +56,8 @@ const renderDropboxSortContainer = () => {
 	<div class="dropbox-container_dropdown">
 	<button class="dropbtn sort-btn">Sort</button>
 	<div class="dropdown-content">
-		<button type="button" class="btn sort-by-status-btn">By status</button>
-		<button type="button" class="btn sort-by-title-btn">By title</button>
+		<span type="button" class="btn sort-by-status-btn">By status</span>
+		<span type="button" class="btn sort-by-title-btn">By title</span>
 	</div>
 </div>
 	`
@@ -61,7 +65,7 @@ const renderDropboxSortContainer = () => {
 }
 
 const renderDropboxContent = (container, options) => {
-	if(options && options.clearContainer) {
+	if (options && options.clearContainer) {
 		container.innerHTML = ''
 		return;
 	}
@@ -71,34 +75,111 @@ const renderDropboxContent = (container, options) => {
 	`
 }
 
-const renderTodoItem = (todo) => {
+const renderTodoItem = (todo, options) => {
 	const template = `
-	<div class="js-item" id="${todo.id}">
+	<div class="js-item">
 	<h1 class="js-item-title titleOfTheItem">${todo.title}</h1>
 	<p class="js-item-description descriptionOfTheItem">${todo.description}</p>
-	<div class="button-container">
-		<button class="js-edit-button  item-functional-button">Edit</button>
-		<button class="js-delete-button item-functional-button">Delete</button>
-		<button class="js-hold-button item-functional-button">Hold</button>
-		<button class="js-done-button item-functional-button">Done</button>
-	</div>
+	${renderTodoBtnContainer(todo, options)}
 	<span class="status-element">${todo.status}</span>
 </div>
 	`
 	return template;
 }
 
+const renderEditTodoItem = (todo) => {
+	const template = `
+	<div class="js-item">
+	<input type="text" class="js-item-title input-title">
+  <input type="text" class="js-item-description input-description">
+	${renderTodoBtnContainer(todo, options)}
+	<span class="status-element">${todo.status}</span>
+</div>
+	`
+	return template;
+}
+
+const renderTodoBtnContainer = (todo, options) => {
+	if (options) {
+		const template = `
+		<div class="button-container" id="${todo.id}">
+			<button class="js-edit-button item-functional-button 
+						${options.editBtn.classes.map(x => x)}" 
+					>
+						Edit
+			</button>
+			<button class="js-delete-button item-functional-button 
+						${options.deleteBtn.classes.map(x => x)}" 
+						>
+						Delete
+			</button>
+			<button class="js-hold-button item-functional-button 
+						${options.holdBtn.classes.map(x => x)}" 
+						>
+						${options.holdBtn.innerText}
+			</button>
+			<button class="js-done-button item-functional-button 
+						${options.doneBtn.classes.map(x => x)}" 
+						>
+						Done
+			</button>
+		</div>
+		`
+		return template;
+	}
+}
+
 const renderTodoList = (container, list) => {
+	// debugger
 	container.innerHTML = '';
-	container.innerHTML= `
+	container.innerHTML = `
 	${list.map((item) => {
-		return renderTodoItem(item);
+		const options = setButtonsOptions(item);
+		return renderTodoItem(item, options);
 	}).join('')}
 	`
 }
 
+const setButtonsOptions = (todo) => {
+	const options = {
+		editBtn: {
+			classes: [],
+			disabled: false,
+		},
+		deleteBtn: {
+			classes: [],
+			disabled: false,
+		},
+		holdBtn: {
+			classes: [],
+			disabled: false,
+			innerText: 'Hold'
+		},
+		doneBtn: {
+			classes: [],
+			disabled: false,
+		}
+	}
+	if (todo.status == TODO_STATUS.hold) {
+		options.holdBtn.innerText = 'Unhold';
+
+		options.deleteBtn.disabled = true;
+		options.editBtn.disabled = true;
+		options.doneBtn.disabled = true;
+	}
+	// if (todo.status == TODO_STATUS.done) {
+	// 	options.holdBtn.classes = ['js-unhold-button'];
+	// 	options.holdBtn.innerHTML = 'Unhold';
+
+	// 	options.deleteBtn.disabled = true;
+	// 	options.editBtn.disabled = true;
+	// 	options.doneBtn.disabled = true;
+	// }
+	return options;
+}
+
 const clearContainer = (container) => {
-	if(container) {
+	if (container) {
 		container.innerHTML = '';
 	}
 }
@@ -108,5 +189,5 @@ export {
 	renderSearchForm,
 	renderTodoList,
 	renderDropboxContent,
-	clearContainer
+	clearContainer,
 }

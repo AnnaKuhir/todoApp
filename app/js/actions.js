@@ -1,12 +1,9 @@
 import {TODO_STATUS} from './entity.js'
 
 const search = (todoList, input) => {
-  const result = todoList.filter(item => item.title.toLowerCase().includes(input));
+  const result = todoList.filter(item => item.title.toLowerCase().includes(input.toLowerCase()));
   return result;
 };
-
-
-
 
 const sortByTitle = (todoList) => {
   if (todoList || todoList.length > 0){
