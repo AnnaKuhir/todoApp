@@ -29,11 +29,6 @@ import {
 } from './actions.js'
 
 import {
-	validateCreateForm, 
-	validateSearchForm 
-} from './validationForm.js'
-
-import {
 	initInitialButtonsListeners,
 	initFormButtonListeners,
 	initDropboxListeners,
@@ -70,7 +65,6 @@ const onCreateTodoClick = (event) => {
 	addTodo(todo);
 	renderWithTimeout(itemContainer, getTodos())
 	form.reset();
-	return validateCreateForm();
 }
 
 const onSearchTodoClick = (event) => {
@@ -83,7 +77,6 @@ const onSearchTodoClick = (event) => {
 		clearContainer(dropboxContainer);
 	}
 	form.reset();
-	return validateSearchForm();
 }
 
 const onSortByTitleClick = () => {
