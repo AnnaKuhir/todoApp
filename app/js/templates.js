@@ -187,12 +187,12 @@ const renderEditTodoItem = (todo) => {
 	itemContainer.appendChild(buttonContainer);
 	itemContainer.appendChild(statusElement);
 
-	itemTitle.className = 'titleOfTheItem';
+	itemTitle.classList.add('titleEditOfTheItem', 'titleOfTheItem');
 	itemTitle.setAttribute('value', todo.title)
 	itemTitle.type = 'text';
 	itemTitle.required = 'true';
 
-	itemDescriotion.className = 'descriptionOfTheItem';
+	itemDescriotion.classList.add('descriptionEditOfTheItem', 'descriptionOfTheItem');
 	itemDescriotion.setAttribute('value', todo.description)
 	itemDescriotion.type = 'text';
 	itemDescriotion.required = 'true';
