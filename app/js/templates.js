@@ -1,15 +1,21 @@
 import { TODO_STATUS } from "./entity.js";
 
 const renderCreateForm = (container) => {
-
 	const template = `
 	<button type="button" class="btn close-form-btn"> X </button>
- 	<form class="js-addListItem functional-form">
+	 <form class="js-addListItem functional-form"
+					name="myForm"
+					>
 				<input type="text" 
 							 class="js-addListItem_title addListItem_element "
-							 placeholder="Enter title" required="true">
+							 placeholder="Enter title"
+							 name="Title" 
+							 >
 				<input type="text" 
-							 class="js-addListItem_description addListItem_element" placeholder="Enter description" required="true">
+							 class="js-addListItem_description addListItem_element" 
+							 placeholder="Enter description"
+							 name="Description" 
+							 >
 				<button type="submit" 
 								class="js-addListItem_button addListItem_element">
 								Add
@@ -22,11 +28,13 @@ const renderCreateForm = (container) => {
 const renderSearchForm = (container) => {
 	const template = `
 	<button type="button" class="btn close-form-btn"> X </button>
-	<form class="js-searchItem functional-form">
+	<form class="js-searchItem functional-form"
+				name= "form">
 		<input type="text" 
 					 class="js-searchItem_searchByTitle searchItem_element"
-					 placeholder="Search by title" 
-					 required="true">
+					 placeholder="Search by title"
+					 name = "Search" 
+					 >
 		<button type="submit" 
 						class="js-searchItem_button searchItem_element">
 						Search
@@ -34,7 +42,7 @@ const renderSearchForm = (container) => {
 	</form>
 	`
 	container.innerHTML = template;
-}
+};
 
 const renderDropboxStatusContainer = () => {
 	const template = `
@@ -47,9 +55,8 @@ const renderDropboxStatusContainer = () => {
 	</div>
 </div>
 	`
-
 	return template;
-}
+};
 
 const renderDropboxSortContainer = () => {
 	const template = `
@@ -75,103 +82,10 @@ const renderDropboxContent = (container, options) => {
 	`
 }
 
-// const renderEditTodoItem = (todo, options) => {
-// 	const template = `
-// 	<div class="js-item">
-// 	<h1 class="js-item-title titleOfTheItem">${todo.title}</h1>
-// 	<p class="js-item-description descriptionOfTheItem">${todo.description}</p>
-// 	${renderTodoBtnContainer(todo, options)}
-// 	<span class="status-element">${todo.status}</span>
-// </div>
-// 	`
-// 	return template;
-// }
-
-// const renderEditTodoItem = (todo) => {
-// 	const template = `
-// 	<div class="js-item">
-// 	<input type="text" class="js-item-title input-title">
-//   <input type="text" class="js-item-description input-description">
-// 	${renderTodoBtnContainer(todo, options)}
-// 	<span class="status-element">${todo.status}</span>
-// </div>
-// 	`
-// 	return template;
-// }
-
-// const renderTodoBtnContainer = (todo, options) => {
-// 	if (options) {
-// 		debugger;
-// 		const template = `
-// 		<div class="button-container" id="${todo.id}">
-// 			<button class="js-edit-button item-functional-button 
-// 						${options.editBtn.classes.map(x => x)}" 
-// 					>
-// 						Edit
-// 			</button>
-// 			<button class="js-delete-button item-functional-button 
-// 						${options.deleteBtn.classes.map(x => x)}" 
-// 						>
-// 						Delete
-// 			</button>
-// 			<button class="js-hold-button item-functional-button 
-// 						${options.holdBtn.classes.map(x => x)}" 
-// 						>
-// 						${options.holdBtn.innerText}
-// 			</button>
-// 			<button class="js-done-button item-functional-button 
-// 						${options.doneBtn.classes.map(x => x)}" 
-// 						>
-// 						Done
-// 			</button>
-// 		</div>
-// 		`
-// 		return template;
-// 	}
-// }
-
-// const renderTodoBtnContainer = (todo, options) => {
-// 	if (options) {
-// 		// debugger;
-// 		const buttonContainer = document.createElement('div');
-// 		const editButton = document.createElement('button');
-// 		const deleteButton = document.createElement('button');
-// 		const holdButton = document.createElement('button');
-// 		const doneButton = document.createElement('button');
-
-// 		buttonContainer.appendChild(editButton);
-// 		buttonContainer.appendChild(deleteButton);
-// 		buttonContainer.appendChild(holdButton);
-// 		buttonContainer.appendChild(doneButton);
-// 		buttonContainer.classList.add('button-container');
-// 		buttonContainer.id = todo.id;
-
-// 		editButton.classList.add(options.editBtn.classes.map( x => x));
-// 		editButton.innerText = 'Edit';
-// 		editButton.disabled = options.editBtn.disabled;
-
-// 		deleteButton.classList.add(options.deleteBtn.classes.map( x => x));
-// 		deleteButton.innerText = 'Delete';
-// 		deleteButton.disabled = options.deleteBtn.disabled;
-
-// 		holdButton.classList.add(options.holdBtn.classes.map( x => x));
-// 		holdButton.innerText = options.holdBtn.innerText;
-// 		holdButton.disabled = options.holdBtn.disabled;
-
-// 		doneButton.classList.add(options.doneBtn.classes.map( x => x));
-// 		doneButton.innerText = 'Done';
-// 		doneButton.disabled = options.doneBtn.disabled;
-
-// 		return buttonContainer.outerHTML;
-// 	}
-// }
-
 const renderTodoList = (container, list) => {
-	// debugger
 	container.innerHTML = '';
 	container.innerHTML = `
 	${list.map((item) => {
-		// const options = setButtonsOptions(item);
 		if (item.isEdited){
 		return	renderEditTodoItem(item);
 		}
@@ -180,47 +94,7 @@ const renderTodoList = (container, list) => {
 	`
 }
 
-const setButtonsOptions = (todo) => {
-	const options = {
-		editBtn: {
-			classes: [],
-			disabled: false,
-		},
-		deleteBtn: {
-			classes: [],
-			disabled: false,
-		},
-		holdBtn: {
-			classes: [],
-			disabled: false,
-			innerText: 'Hold'
-		},
-		doneBtn: {
-			classes: [],
-			disabled: false,
-		}
-	}
-	if (todo.status == TODO_STATUS.hold) {
-		options.holdBtn.innerText = 'Unhold';
-
-		options.deleteBtn.disabled = true;
-		options.editBtn.disabled = true;
-		options.doneBtn.disabled = true;
-	}
-	// if (todo.status == TODO_STATUS.done) {
-	// 	options.holdBtn.classes = ['js-unhold-button'];
-	// 	options.holdBtn.innerHTML = 'Unhold';
-
-	// 	options.deleteBtn.disabled = true;
-	// 	options.editBtn.disabled = true;
-	// 	options.doneBtn.disabled = true;
-	// }
-	return options;
-}
-
-
 const renderTodoItem = (todo) => {
-	// debugger;
 	const itemContainer = document.createElement('div');
 	const itemTitle = document.createElement('h1');
 	const itemDescriotion = document.createElement('p');
@@ -277,6 +151,8 @@ const renderTodoItem = (todo) => {
 
 		doneButton.classList.add('disabled-button');
 		doneButton.disabled = 'true';
+
+		statusElement.style.background = 'lightgrey'
 	}
 
 	if (todo.status === TODO_STATUS.hold) {
@@ -286,19 +162,17 @@ const renderTodoItem = (todo) => {
 		deleteButton.classList.add('disabled-button');
 		deleteButton.disabled = 'true';
 
-
 		doneButton.classList.add('disabled-button');
 		doneButton.disabled = 'true';
 
 		holdButton.innerText = 'Unhold';
 
+		statusElement.style.background = 'red'
 	}
 	return itemContainer.outerHTML;
-
 }
 
 const renderEditTodoItem = (todo) => {
-	debugger;
 	const itemContainer = document.createElement('div');
 	const itemTitle = document.createElement('input');
 	const itemDescriotion = document.createElement('input');
@@ -338,19 +212,6 @@ const renderEditTodoItem = (todo) => {
 	statusElement.innerText = todo.status;
 
 	return itemContainer.outerHTML;
-
-}
-
-
-
-
-
-
-
-const clearContainer = (container) => {
-	if (container) {
-		container.innerHTML = '';
-	}
 }
 
 export {
@@ -358,5 +219,4 @@ export {
 	renderSearchForm,
 	renderTodoList,
 	renderDropboxContent,
-	clearContainer,
 }

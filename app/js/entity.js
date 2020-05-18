@@ -7,7 +7,7 @@ const createTodo = (title, description, id) => {
     description: description,
     status: TODO_STATUS.pending,
     isDeleted: false,
-    isEdited: false
+    isEdited: false,
   }
 }
 
@@ -26,7 +26,6 @@ const getAllTodos = () => {
 }
 
 const returnTodos = () => {
-  // debugger;
   todoList.forEach(todo => {
     todo.isDeleted = false;
   });
@@ -43,15 +42,16 @@ const initTodos = () => {
     'Утренняя зарядка',
     'Подъем в 8 утра, разминка, силовые упражнения, растяжка',
     0);
-  firstTodo.status = TODO_STATUS.hold
   const secondTodo = createTodo(
     'Курсовой проект',
     'Провести расчеты, построить часовые характеристики импульсной системы автоматического управления',
     1);
+    secondTodo.status = TODO_STATUS.hold;
   const thirdTodo = createTodo(
     'Ужин',
     'Приготовить праздничный ужин для гостей',
     2);
+    thirdTodo.status = TODO_STATUS.done;
   todoList.push(firstTodo, secondTodo, thirdTodo);
 };
 
@@ -107,7 +107,11 @@ const deteleAll = () => {
   }
 }
 
-
+const clearContainer = (container) => {
+	if (container) {
+		container.innerHTML = '';
+	}
+}
 
 
 export {
@@ -123,5 +127,6 @@ export {
   editTodo,
   setStatus,
   setStatusToAll,
-  deteleAll
+  deteleAll,
+  clearContainer
 }

@@ -1,4 +1,4 @@
-import {TODO_STATUS} from './entity.js'
+import { TODO_STATUS } from './entity.js'
 
 const search = (todoList, input) => {
   const result = todoList.filter(item => item.title.toLowerCase().includes(input.toLowerCase()));
@@ -6,10 +6,10 @@ const search = (todoList, input) => {
 };
 
 const sortByTitle = (todoList) => {
-  if (todoList || todoList.length > 0){
-   return todoList.sort((a, b) => {
-      if(a.title.toLowerCase() < b.title.toLowerCase()) return -1;
-      if(a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+  if (todoList || todoList.length > 0) {
+    return todoList.sort((a, b) => {
+      if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
+      if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
       return 0;
     })
   }
@@ -22,8 +22,8 @@ const sortByStatus = (todoList) => {
 
   todoList.forEach(item => {
     if (item.status == TODO_STATUS.pending) pendingList.push(item);
-    if(item.status == TODO_STATUS.hold) holdList.push(item);
-    if(item.status == TODO_STATUS.done) doneList.push(item);
+    if (item.status == TODO_STATUS.hold) holdList.push(item);
+    if (item.status == TODO_STATUS.done) doneList.push(item);
   });
 
   const sortedPendingByTitle = sortByTitle(pendingList);
@@ -33,8 +33,6 @@ const sortByStatus = (todoList) => {
   return [...sortedPendingByTitle, ...sortedHoldByTitle, ...sortedDoneByTitle];
 
 }
-
-
 
 export {
   search,

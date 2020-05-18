@@ -26,14 +26,12 @@ body {
   border-bottom-right-radius: 5px;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #aa6d8f;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #ba7199;
 }
@@ -117,7 +115,7 @@ body {
     }
   }
 
-  .close-form-btn{
+  .close-form-btn {
     position: absolute;
     top: 0;
     right: 18px;
@@ -205,16 +203,16 @@ body {
   }
 }
 
-//--------------------
+//--------dropbox styles--------
+
 .dropbox-container {
   width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin: 8px 0;
-  
 
-  &_dropdown{
+  &_dropdown {
     border: 2px solid #aa6d8f;
     border-radius: 15px;
     overflow: hidden;
@@ -223,7 +221,6 @@ body {
     margin: 0 8px;
   }
 }
-
 
 .dropbtn {
   width: 100%;
@@ -235,12 +232,11 @@ body {
   border: none;
   cursor: pointer;
   &:hover,
-  &:focus {    
+  &:focus {
     background: #aa6d8f;
     color: #fff;
   }
 }
-
 
 .dropdown-content {
   display: none;
@@ -262,7 +258,7 @@ body {
   display: block;
   cursor: pointer;
 
-  &:hover{
+  &:hover {
     background: #aa6d8f;
     color: #fff;
   }
@@ -271,22 +267,8 @@ body {
 .show {
   display: block;
 }
-//--------------------------------------------------
 
-.disabled-button {
-  opacity: 0.5;
-}
-
-
-
-
-
-
-
-
-
-
-
+//--------loader--------
 .lds-ripple {
   display: inline-block;
   position: relative;
@@ -318,4 +300,8 @@ body {
     height: 72px;
     opacity: 0;
   }
+}
+
+.disabled-button {
+  opacity: 0.5;
 }
